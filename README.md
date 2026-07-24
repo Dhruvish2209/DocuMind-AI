@@ -1,5 +1,4 @@
 # DocuMind-AI
-<<<<<<< HEAD
 
 An AI-powered Document Question Answering application built using **Retrieval-Augmented Generation (RAG)**.
 
