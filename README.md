@@ -190,4 +190,3 @@ Dhruvish Chudasama
 MCA Student | AI & Machine Learning Enthusiast
 =======
 AI-powered document intelligence system for PDF question answering using Retrieval-Augmented Generation (RAG).
->>>>>>> 188f52bb9f68361a3037f247871a8aa2a9b40b6e
