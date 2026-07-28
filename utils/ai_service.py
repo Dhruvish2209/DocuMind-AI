@@ -1,46 +1,52 @@
 import os
-
-from google import genai
-from google.genai.errors import ClientError
 from dotenv import load_dotenv
+from google import genai
+from config import MODEL_NAME
 
 load_dotenv()
 
 client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
+    api_key=os.getenv("GOOGLE_API_KEY")
 )
 
 
-def ask_gemini(context, question):
+def ask_gemini(context, question, chat_history=""):
+
     prompt = f"""
-You are an AI assistant answering questions about an uploaded document.
+You are DocuMind AI, a document question-answering assistant.
 
-Use ONLY the provided context.
+Your job is to answer ONLY using the retrieved document context.
 
-If the context contains enough information to answer, answer clearly and concisely.
+Rules:
+1. Use the conversation history only to understand follow-up questions.
+2. Do NOT use conversation history as factual knowledge.
+3. Answer ONLY from the retrieved context.
+4. If the answer is not present in the retrieved context, say:
+"I couldn't find that information in the uploaded document(s)."
+5. Do not hallucinate or invent facts.
 
-If the context only partially answers the question, say what the document states and mention that it does not provide further details.
+==============================
+Conversation History
+==============================
 
-If the answer is completely absent from the context, reply:
+{chat_history}
 
-"I couldn't find that information in the uploaded document."
+==============================
+Retrieved Context
+==============================
 
-Context:
 {context}
 
-Question:
-{question}
+==============================
+Current Question
+==============================
 
-Answer:
+{question}
 """
 
-    try:
-        response = client.models.generate_content(
-            model="gemini-flash-latest",
-            contents=prompt
-        )
+    response = client.models.generate_content(
+    model=MODEL_NAME,
+    contents=prompt,
+    )
 
-        return response.text
-
-    except ClientError as e:
-        return f"Gemini API Error: {e}"
+    return response.text

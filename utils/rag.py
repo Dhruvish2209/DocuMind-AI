@@ -1,23 +1,62 @@
-from utils.embeddings import get_embeddings
-from utils.vector_store import search_vector_store
+from typing import Any
+
+from utils.retriever import retrieve_chunks
 
 
-def retrieve_context(question, index, chunks, top_k=3):
+def retrieve_context(
+    question: str,
+    index: Any,
+    bm25: Any,
+    chunks: list[dict],
+):
     """
-    Retrieve the most relevant chunks for a question.
+    Build context from retrieved chunks.
+    Retrieval logic lives in retriever.py.
     """
 
-    query_embedding = get_embeddings([question])[0]
-
-    _, indices = search_vector_store(
-        index,
-        query_embedding,
-        top_k
+    result = retrieve_chunks(
+        question=question,
+        index=index,
+        bm25=bm25,
+        chunks=chunks,
     )
 
-    context = []
+    retrieved_chunks = result["chunks"]
 
-    for idx in indices[0]:
-        context.append(chunks[idx])
+    context_parts = []
+    sources = []
+    retrieval_debug = []
 
-    return "\n\n".join(context)
+    seen_sources = set()
+
+    for chunk in retrieved_chunks:
+
+        context_parts.append(chunk["text"])
+
+        source_key = (
+            chunk["file_name"],
+            chunk["page"],
+        )
+
+        if source_key not in seen_sources:
+
+            sources.append(
+                {
+                    "file_name": chunk["file_name"],
+                    "page": chunk["page"],
+                }
+            )
+
+            seen_sources.add(source_key)
+
+        retrieval_debug.append(
+            {
+                "file_name": chunk["file_name"],
+                "page": chunk["page"],
+                "preview": chunk["text"][:250],
+            }
+        )
+
+    context = "\n\n".join(context_parts)
+
+    return context, sources[:2], retrieval_debug

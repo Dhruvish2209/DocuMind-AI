@@ -1,33 +1,45 @@
-def split_text(text: str, chunk_size: int = 500, overlap: int = 100):
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from config import CHUNK_SIZE, CHUNK_OVERLAP
+
+def split_text(
+    pages: list[dict],
+    chunk_size=CHUNK_SIZE,
+    chunk_overlap=CHUNK_OVERLAP,
+) -> list[dict]:
     """
-    Split text into overlapping chunks.
-
-    Args:
-        text (str): Cleaned document text.
-        chunk_size (int): Maximum characters per chunk.
-        overlap (int): Characters shared between consecutive chunks.
-
-    Returns:
-        list[str]: List of text chunks.
+    Split cleaned pages into semantic chunks while preserving metadata.
     """
 
-    if not text:
-        return []
-
-    if overlap >= chunk_size:
-        raise ValueError("Overlap must be smaller than chunk_size.")
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=[
+            "\n\n",
+            "\n",
+            ". ",
+            " ",
+            ""
+        ]
+    )
 
     chunks = []
-    start = 0
+    chunk_id = 0
 
-    while start < len(text):
-        end = min(start + chunk_size, len(text))
+    for page in pages:
 
-        chunk = text[start:end].strip()
+        page_chunks = splitter.split_text(page["text"])
 
-        if chunk:
-            chunks.append(chunk)
+        for chunk in page_chunks:
 
-        start += chunk_size - overlap
+            chunks.append(
+                {
+                    "chunk_id": chunk_id,
+                    "file_name": page["file_name"],
+                    "page": page["page"],
+                    "text": chunk
+                }
+            )
+
+            chunk_id += 1
 
     return chunks

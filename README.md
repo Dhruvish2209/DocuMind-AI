@@ -1,88 +1,60 @@
-# DocuMind-AI
+# DocuMind AI
+> **An AI-powered document intelligence platform that transforms documents into interactive knowledge using Retrieval-Augmented Generation (RAG).**
 
-An AI-powered Document Question Answering application built using **Retrieval-Augmented Generation (RAG)**.
-
-Upload a PDF, DOCX, or TXT document and ask questions in natural language. The application retrieves the most relevant content using semantic search and generates grounded answers using Google's Gemini model.
+DocuMind AI enables users to upload PDF, DOCX, and TXT documents and interact with them through natural language. It combines semantic vector search with BM25 keyword retrieval to provide accurate, context-aware responses using Google's Gemini model.
 
 ---
 
 ## Features
 
-- Upload PDF, DOCX, and TXT files
-- Automatic text extraction
-- Text cleaning and preprocessing
-- Intelligent text chunking
-- Sentence Transformer embeddings
-- FAISS vector database
-- Semantic similarity search
-- Gemini Flash powered answers
-- Retrieval-Augmented Generation (RAG)
+- Chat with uploaded documents using AI
+- Generate executive summaries
+- Extract key takeaways
+- Create AI-powered flashcards
+- Generate multiple-choice quizzes
+- Suggest meaningful follow-up questions
+- Hybrid Retrieval (Vector Search + BM25)
+- Support for PDF, DOCX, and TXT documents
+- Clean, modular Streamlit interface
 
 ---
 
-## Project Architecture
+## Architecture
 
-User Uploads Document
-        │
-        ▼
-Extract Text
-        │
-        ▼
-Clean Text
-        │
-        ▼
-Split into Chunks
-        │
-        ▼
-Generate Embeddings
-        │
-        ▼
-Store in FAISS
-        │
-        ▼
-User Question
-        │
-        ▼
-Question Embedding
-        │
-        ▼
-Semantic Search
-        │
-        ▼
-Retrieve Relevant Context
-        │
-        ▼
-Gemini Flash
-        │
-        ▼
-Final Answer
+```mermaid
+flowchart TD
 
----
+A[Upload Documents] --> B[Extract Text]
 
-## Project Structure
+B --> C[Clean Text]
 
-```
-DocuMind-AI/
-│
-├── Home.py
-├── pages/
-│   └── 1_Document_Upload.py
-│
-├── utils/
-│   ├── file_reader.py
-│   ├── text_cleaner.py
-│   ├── text_splitter.py
-│   ├── embeddings.py
-│   ├── vector_store.py
-│   ├── rag.py
-│   └── ai_service.py
-│
-├── uploads/
-├── assets/
-├── requirements.txt
-├── .env
-├── .gitignore
-└── README.md
+C --> D[Split into Chunks]
+
+D --> E[Generate Embeddings]
+
+D --> F[Create BM25 Index]
+
+E --> G[Vector Store]
+
+F --> H[BM25 Retriever]
+
+G --> I[Hybrid Retrieval]
+
+H --> I
+
+I --> J[Google Gemini]
+
+J --> K[Chat]
+
+J --> L[Executive Summary]
+
+J --> M[Key Takeaways]
+
+J --> N[Flashcards]
+
+J --> O[Quiz]
+
+J --> P[Suggested Questions]
 ```
 
 ---
@@ -93,24 +65,79 @@ DocuMind-AI/
 
 - Streamlit
 
+### AI
+
+- Google Gemini
+
+### Retrieval
+
+- Sentence Transformers
+- FAISS
+- BM25
+
 ### Backend
 
 - Python
 
-### AI / Machine Learning
-
-- Sentence Transformers
-- FAISS
-- Retrieval-Augmented Generation (RAG)
-- Google Gemini API
-
-### Libraries
+### Document Processing
 
 - PyMuPDF
 - python-docx
+
+### Utilities
+
 - NumPy
-- python-dotenv
-- google-genai
+- Pandas
+
+---
+
+## Project Structure
+
+```text
+DocuMindAI/
+
+├── assets/
+│   └── css/
+
+├── components/
+│   ├── ai_tools.py
+│   ├── chat.py
+│   ├── flashcards.py
+│   ├── key_points.py
+│   ├── quiz.py
+│   ├── sidebar.py
+│   ├── suggested_questions.py
+│   ├── summary.py
+│   ├── uploader.py
+│   └── workspace.py
+
+├── pages/
+│   └── 1_Documents.py
+
+├── utils/
+│   ├── ai_service.py
+│   ├── bm25_store.py
+│   ├── embeddings.py
+│   ├── file_reader.py
+│   ├── flashcards.py
+│   ├── key_points.py
+│   ├── quiz.py
+│   ├── rank_fusion.py
+│   ├── reranker.py
+│   ├── retriever.py
+│   ├── session.py
+│   ├── suggested_questions.py
+│   ├── summary.py
+│   ├── text_cleaner.py
+│   ├── text_splitter.py
+│   ├── ui.py
+│   └── vector_store.py
+
+├── Home.py
+├── config.py
+├── requirements.txt
+└── README.md
+```
 
 ---
 
@@ -119,7 +146,13 @@ DocuMind-AI/
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/DocuMindAI.git
+```
+
+Move into the project
+
+```bash
+cd DocuMindAI
 ```
 
 Create a virtual environment
@@ -142,12 +175,6 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Create a `.env` file
-
-```text
-GEMINI_API_KEY=YOUR_API_KEY
-```
-
 Run the application
 
 ```bash
@@ -156,36 +183,51 @@ streamlit run Home.py
 
 ---
 
-## How It Works
+## Screenshots
 
-1. Upload a document
-2. Text is extracted and cleaned
-3. Document is divided into chunks
-4. Embeddings are generated
-5. Embeddings are stored in FAISS
-6. User asks a question
-7. Similar chunks are retrieved
-8. Gemini receives only the retrieved context
-9. Grounded answer is generated
+> Add screenshots after deployment.
+
+### Home
+
+![Home](screenshots/home.png)
+
+### Upload
+
+![Upload](screenshots/upload.png)
+
+### Chat
+
+![Chat](screenshots/chat.png)
+
+### Executive Summary
+
+![Summary](screenshots/summary.png)
+
+### Flashcards
+
+![Flashcards](screenshots/flashcards.png)
+
+### Quiz
+
+![Quiz](screenshots/quiz.png)
 
 ---
 
 ## Future Improvements
 
-- Multiple document support
-- Chat history
-- Source citations
-- Streaming responses
-- Session caching
-- Better UI
+- OCR support for scanned PDFs
 - Conversation memory
+- Citation highlighting
+- Multi-language document support
+- Authentication
+- Cloud storage integration
+- Export summaries to PDF
+- Document comparison
 
 ---
 
 ## Author
 
-Dhruvish Chudasama
+**Dhruvish Chudasama**
 
 MCA Student | AI & Machine Learning Enthusiast
-=======
-AI-powered document intelligence system for PDF question answering using Retrieval-Augmented Generation (RAG).

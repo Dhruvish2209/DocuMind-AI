@@ -1,21 +1,41 @@
 import re
+from typing import List
 
 
-def clean_text(text: str) -> str:
+def clean_text(pages: List[dict]) -> List[dict]:
     """
-    Clean extracted document text while preserving paragraph structure.
+    Clean extracted document text while preserving metadata.
+
+    Args:
+        pages (List[dict]):
+            List of page dictionaries.
+
+    Returns:
+        List[dict]:
+            Cleaned pages with metadata preserved.
     """
 
-    if not text:
-        return ""
+    cleaned_pages = []
 
-    # Remove extra spaces and tabs
-    text = re.sub(r"[ \t]+", " ", text)
+    for page in pages:
 
-    # Normalize line endings
-    text = text.replace("\r\n", "\n").replace("\r", "\n")
+        text = page["text"]
 
-    # Remove excessive blank lines (keep max 2)
-    text = re.sub(r"\n{3,}", "\n\n", text)
+        # Remove extra spaces and tabs
+        text = re.sub(r"[ \t]+", " ", text)
 
-    return text.strip()
+        # Remove excessive blank lines
+        text = re.sub(r"\n\s*\n+", "\n\n", text)
+
+        # Remove leading and trailing whitespace
+        text = text.strip()
+
+        cleaned_pages.append(
+            {
+                "file_name": page["file_name"],
+                "page": page["page"],
+                "text": text
+            }
+        )
+
+    return cleaned_pages
