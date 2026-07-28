@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/banner.png" alt="DocuMind AI Banner" width="100%">
+  <img src="assets/images/banner.png" alt="DocuMind AI Banner" width="100%">
 </p>
 # DocuMind AI
 > **An AI-powered document intelligence platform that transforms documents into interactive knowledge using Retrieval-Augmented Generation (RAG).**
