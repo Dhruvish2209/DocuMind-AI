@@ -25,21 +25,15 @@ Rules:
 "I couldn't find that information in the uploaded document(s)."
 5. Do not hallucinate or invent facts.
 
-==============================
 Conversation History
-==============================
 
 {chat_history}
 
-==============================
 Retrieved Context
-==============================
 
 {context}
 
-==============================
 Current Question
-==============================
 
 {question}
 """

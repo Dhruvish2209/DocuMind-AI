@@ -9,34 +9,22 @@ def render_quiz():
     st.caption("Test your understanding with AI-generated multiple-choice questions.")
     st.divider()
 
-    # -----------------------------------------
     # Check Documents
-    # -----------------------------------------
-
     if st.session_state["vector_store"] is None:
         st.info("Upload one or more documents to generate a quiz.")
         return
 
-    # -----------------------------------------
     # Session State
-    # -----------------------------------------
-
     if "quiz" not in st.session_state:
         st.session_state["quiz"] = None
 
-    # -----------------------------------------
     # Actions
-    # -----------------------------------------
-
     regenerate = st.button(
         "Regenerate Quiz",
         use_container_width=True,
     )
 
-    # -----------------------------------------
     # Generate Quiz
-    # -----------------------------------------
-
     if (
         st.session_state["quiz"] is None
         or regenerate
@@ -53,18 +41,12 @@ def render_quiz():
                 document_text
             )
 
-    # -----------------------------------------
     # Empty State
-    # -----------------------------------------
-
     if not st.session_state["quiz"]:
         st.warning("No quiz questions could be generated from the uploaded documents.")
         return
 
-    # -----------------------------------------
     # Display Quiz
-    # -----------------------------------------
-
     for index, question in enumerate(st.session_state["quiz"], start=1):
 
         st.subheader(f"Question {index}")

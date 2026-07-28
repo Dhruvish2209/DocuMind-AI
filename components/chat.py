@@ -8,30 +8,21 @@ from utils.ai_service import ask_gemini
 
 def render_chat():
 
-    # -----------------------------------------
     # Check Documents
-    # -----------------------------------------
-
     if st.session_state["vector_store"] is None:
 
-        st.info("📄 Upload one or more documents to start chatting.")
+        st.info("Upload one or more documents to start chatting.")
 
         return
 
-    # -----------------------------------------
     # Chat History
-    # -----------------------------------------
-
     for message in st.session_state["messages"]:
 
         with st.chat_message(message["role"]):
 
             st.write(message["content"])
 
-    # -----------------------------------------
     # Chat Input
-    # -----------------------------------------
-
     question = st.chat_input(
         "Ask something about your uploaded documents..."
     )
@@ -39,10 +30,7 @@ def render_chat():
     if not question:
         return
 
-    # -----------------------------------------
     # Save User Message
-    # -----------------------------------------
-
     st.session_state["messages"].append(
         {
             "role": "user",
@@ -54,10 +42,7 @@ def render_chat():
 
         st.write(question)
 
-    # -----------------------------------------
     # Generate Response
-    # -----------------------------------------
-
     with st.chat_message("assistant"):
 
         with st.spinner("Thinking..."):
@@ -96,10 +81,7 @@ def render_chat():
 
             st.write(answer)
 
-    # -----------------------------------------
     # Save Assistant Message
-    # -----------------------------------------
-
     st.session_state["messages"].append(
         {
             "role": "assistant",
