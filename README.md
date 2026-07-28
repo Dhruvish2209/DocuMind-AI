@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="images/banner.png" alt="DocuMind AI Banner" width="100%">
+</p>
 # DocuMind AI
 > **An AI-powered document intelligence platform that transforms documents into interactive knowledge using Retrieval-Augmented Generation (RAG).**
 
@@ -203,6 +206,10 @@ streamlit run Home.py
 
 ![Summary](screenshots/summary.png)
 
+### Key Takeaways
+
+![key_takaways](screenshots/key_takeaways.png)
+
 ### Flashcards
 
 ![Flashcards](screenshots/flashcards.png)
@@ -210,6 +217,10 @@ streamlit run Home.py
 ### Quiz
 
 ![Quiz](screenshots/quiz.png)
+
+### Suggested_Question
+
+![Suggested_questions](screenshots/suggested_question.png)
 
 ---
 
